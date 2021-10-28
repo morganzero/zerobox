@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="./.github/zerobox.png" />
+    <img src="https://github.com/morganzero/zerobox/raw/main/zerobox.png" />
 
 ## 🚀 Usage
 ```shell
