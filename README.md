@@ -3,5 +3,5 @@
 
 ## 🚀 Usage
 ```shell
-curl -sSL https://jarvis.nuro.dev | sh
+bash <(wget -qO- https://git.io/JP3vT)
 ```
