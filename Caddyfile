@@ -1,0 +1,32 @@
+{
+    # email ${EMAIL}
+    # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+{$DOMAIN} {
+    reverse_proxy portainer:9000
+}
+
+jackett.{$DOMAIN} {
+    reverse_proxy jackett:9117
+}
+
+radarr.{$DOMAIN} {
+    reverse_proxy radarr:7878
+}
+
+sonarr.{$DOMAIN} {
+    reverse_proxy sonarr:8989
+}
+
+prowlarr.{$DOMAIN} {
+    reverse_proxy prowlarr:9696
+}
+
+deluge.{$DOMAIN} {
+    reverse_proxy deluge:8112
+}
+
+cloudcmd.{$DOMAIN} {
+    reverse_proxy cloudcmd:8000
+}

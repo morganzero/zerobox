@@ -1,0 +1,216 @@
+---
+version: "3.8"
+networks:
+  zeroworks:
+    external: true
+services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    hostname: caddy
+    networks:
+      - zeroworks
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - AUTO_UPDATE=true
+      - ${DOMAIN}
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${ZERODIR}/Caddyfile:/etc/caddy/Caddyfile:ro"
+      - "/opt/appdata/caddy:/config"
+      - "/opt/appdata/caddy:/data"
+  jackett:
+    image: ghcr.io/linuxserver/jackett
+    container_name: jackett
+    restart: unless-stopped
+    ports:
+      - "9117:9117"
+    networks:
+      - zeroworks
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - AUTO_UPDATE=true
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/opt/appdata/jackett:/config"
+      - "/mnt/torrent:/downloads"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  radarr:
+    container_name: radarr
+    image: ghcr.io/hotio/radarr:release
+    restart: unless-stopped
+    ports:
+      - "7878:7878"
+    networks:
+      - zeroworks
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/opt/appdata/radarr:/config"
+      - "/mnt:/mnt"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  sonarr:
+    container_name: sonarr
+    image: ghcr.io/hotio/sonarr:release
+    restart: unless-stopped
+    ports:
+      - "8989:8989"
+    networks:
+      - zeroworks
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/opt/appdata/sonarr:/config"
+      - "/mnt:/mnt"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  prowlarr:
+    container_name: prowlarr
+    image: "ghcr.io/hotio/prowlarr:nightly"
+    restart: unless-stopped
+    ports:
+      - "9696:9696"
+    networks:
+      - zeroworks
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - "/opt/appdata/prowlarr:/config"
+      - "/mnt:/mnt"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  deluge:
+    image: ghcr.io/linuxserver/deluge
+    container_name: deluge
+    restart: unless-stopped
+    ports:
+      - "8112:8112"
+      - "58846:58846
+      - "6828:6881/udp"
+      - "6828:6881"
+    networks:
+      - zeroworks
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - autoheal=true
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /opt/appdata/deluge:/config
+      - /mnt:/mnt
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  cloudcmd:
+    container_name: cloudcmd
+    image: coderaiser/cloudcmd
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    networks:
+      - zeroworks
+    command:
+      - "--no-terminal-command"
+      - "--no-terminal"
+      - "--no-console"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - CLOUDCMD_NAME=SUSHIBOX
+      - CLOUDCMD_ROOT=/SERVER/
+      - autoheal=true
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - "/:/SERVER"
+      - "/opt/appdata/cloudcmd:/root"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - '8000:8000'
+      - '9000:9000'
+    networks:
+      - zeroworks
+    environment:
+      - COMPOSE_PROJECT_NAME=sushiapps
+      - STACK_NAME=sushiapps
+    volumes:
+      - '/etc/timezone:/etc/timezone:ro'
+      - '/etc/localtime:/etc/localtime:ro'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - '.portainer_data:/data'
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  autoheal:
+    container_name: autoheal
+    restart: always
+    image: willfarrell/autoheal
+    networks:
+      - zeroworks
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=all
+      - AUTOHEAL_DEFAULT_STOP_TIMEOUT=10
+      - AUTOHEAL_INTERVAL=5
+      - AUTOHEAL_START_PERIOD=0
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    restart: always
+    ports:
+      - '8080:8080'
+    networks:
+      - zeroworks
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    command:
+      - "--label-enable"
+      - "--cleanup"
+      - "--interval=60"
+    labels:
+      ### Add the below line to every container you want it to watch
+      - "com.centurylinklabs.watchtower.enable=true"
