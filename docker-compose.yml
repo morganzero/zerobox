@@ -20,7 +20,7 @@ services:
       - PGID=1000
       - UMASK=002
       - AUTO_UPDATE=true
-      - ${DOMAIN}
+      - DOMAIN=${DOMAIN}
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
