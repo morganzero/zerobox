@@ -163,6 +163,7 @@ services:
     restart: always
     security_opt:
       - no-new-privileges:true
+    command: --logo "https://github.com/morganzero/zerobox/raw/main/zerobox.png"
     ports:
       - '8000:8000'
       - '9000:9000'
