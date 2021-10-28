@@ -92,11 +92,13 @@ echo "
 ╔═════════════════════════════════════════════════════════════╗
 ║   Configuring .env 🤫                                       ║
 ╚═════════════════════════════════════════════════════════════╝"
-echo; spinner; echo
+echo
 cp "/opt/zerobox/example.env" "/opt/zerobox/.env"
-
+echo
 echo -e "What's your E-Mail Address?" && read  -p "   Email : " EMAIL
+echo
 echo -e "What's your Domain name?" && read  -p "   Domain : " DOMAIN
+echo; spinner; echo
 sed -e "s/EMAIL=.*/EMAIL=$EMAIL/g" -e "s/DOMAIN=.*/DOMAIN=$DOMAIN/g" -i "/opt/zerobox/.env"
 
 echo "
