@@ -114,7 +114,7 @@ services:
     restart: unless-stopped
     ports:
       - "8112:8112"
-      - "58846:58846
+      - "58846:58846"
       - "6828:6881/udp"
       - "6828:6881"
     networks:
