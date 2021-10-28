@@ -240,3 +240,4 @@ update_zero(){
   git clone https://github.com/morganzero/zerobox.git "/opt/zerobox"
   cp "/opt/zerobackup/.env" "/opt/zerobox/"
 }
+start
