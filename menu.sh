@@ -93,11 +93,11 @@ docker-compose --env-file "/opt/zerobox/.env" -f "/opt/zerobox/docker-compose.ym
 ;;
 
 x)
-
+break
 ;;
 
 X)
-
+break
 ;;
 
 *) ;;
