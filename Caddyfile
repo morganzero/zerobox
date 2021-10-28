@@ -28,5 +28,5 @@ deluge.{$DOMAIN} {
 }
 
 cloudcmd.{$DOMAIN} {
-    reverse_proxy cloudcmd:8001
+    reverse_proxy cloudcmd:8000
 }
