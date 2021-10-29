@@ -1,0 +1,29 @@
+---
+version: "3.8"
+networks:
+  zeroworks:
+    external: true
+services:
+  deluge:
+    image: ghcr.io/linuxserver/deluge
+    container_name: deluge
+    restart: unless-stopped
+    ports:
+      - "8112:8112"
+      - "58846:58846"
+      - "6828:6881/udp"
+      - "6828:6881"
+    networks:
+      - zeroworks
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - autoheal=true
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /opt/appdata/deluge:/config
+      - /mnt:/mnt
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

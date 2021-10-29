@@ -1,0 +1,27 @@
+---
+version: "3.8"
+networks:
+  zeroworks:
+    external: true
+services:
+  jackett:
+    image: ghcr.io/linuxserver/jackett
+    container_name: jackett
+    restart: unless-stopped
+    ports:
+      - "9117:9117"
+    networks:
+      - zeroworks
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - AUTO_UPDATE=true
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/opt/appdata/jackett:/config"
+      - "/mnt/torrent:/downloads"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

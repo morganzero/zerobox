@@ -1,0 +1,29 @@
+---
+version: "3.8"
+networks:
+  zeroworks:
+    external: true
+services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    hostname: caddy
+    networks:
+      - zeroworks
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - AUTO_UPDATE=true
+      - DOMAIN=${DOMAIN}
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${ZERODIR}/configs/Caddyfile:/etc/caddy/Caddyfile:ro"
+      - "/opt/appdata/caddy:/config"
+      - "/opt/appdata/caddy:/data"

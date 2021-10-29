@@ -1,0 +1,26 @@
+---
+version: "3.8"
+networks:
+  zeroworks:
+    external: true
+services:
+  prowlarr:
+    container_name: prowlarr
+    image: "ghcr.io/hotio/prowlarr:nightly"
+    restart: unless-stopped
+    ports:
+      - "9696:9696"
+    networks:
+      - zeroworks
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - "/opt/appdata/prowlarr:/config"
+      - "/mnt:/mnt"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

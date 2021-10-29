@@ -1,0 +1,21 @@
+---
+version: "3.8"
+networks:
+  zeroworks:
+    external: true
+services:
+  autoheal:
+    container_name: autoheal
+    restart: always
+    image: willfarrell/autoheal
+    networks:
+      - zeroworks
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=all
+      - AUTOHEAL_DEFAULT_STOP_TIMEOUT=10
+      - AUTOHEAL_INTERVAL=5
+      - AUTOHEAL_START_PERIOD=0
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

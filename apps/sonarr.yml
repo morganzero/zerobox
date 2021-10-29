@@ -1,0 +1,26 @@
+---
+version: "3.8"
+networks:
+  zeroworks:
+    external: true
+services:
+  sonarr:
+    container_name: sonarr
+    image: ghcr.io/hotio/sonarr:release
+    restart: unless-stopped
+    ports:
+      - "8989:8989"
+    networks:
+      - zeroworks
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/opt/appdata/sonarr:/config"
+      - "/mnt:/mnt"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

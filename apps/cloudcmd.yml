@@ -1,0 +1,32 @@
+---
+version: "3.8"
+networks:
+  zeroworks:
+    external: true
+services:
+  cloudcmd:
+    container_name: cloudcmd
+    image: coderaiser/cloudcmd
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    networks:
+      - zeroworks
+    command:
+      - "--no-terminal-command"
+      - "--no-terminal"
+      - "--no-console"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - CLOUDCMD_NAME=SUSHIBOX
+      - CLOUDCMD_ROOT=/SERVER/
+      - autoheal=true
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - "/:/SERVER"
+      - "/opt/appdata/cloudcmd:/root"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

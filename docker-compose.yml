@@ -24,7 +24,7 @@ services:
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "${ZERODIR}/Caddyfile:/etc/caddy/Caddyfile:ro"
+      - "${ZERODIR}/configs/Caddyfile:/etc/caddy/Caddyfile:ro"
       - "/opt/appdata/caddy:/config"
       - "/opt/appdata/caddy:/data"
   jackett:
