@@ -53,7 +53,7 @@ update_zero_dev(){
   now=$(date +'%Y-%m-%d-%H%M')
   lastbackup="$backup/zerobox-$now"
   clear
-  sbx_banner
+  banner
   echo -e "\e[34m══════════════════════════════════\\e[00m"
   echo -e "\e[35m[+]\e[00m  ZEROBOX IS UPDATING!"
   echo -e "\e[34m══════════════════════════════════\\e[00m"
@@ -68,9 +68,4 @@ update_zero_dev(){
   echo
 }
 
-create_shortcut(){
-  ln -snf "/opt/sushibox/updatezero.sh" "/usr/bin/local/zeroupdate"
-}
-
 update_zero_dev
-create_shortcut
