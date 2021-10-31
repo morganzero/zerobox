@@ -74,6 +74,7 @@ cat << EOF
 [8]  Redeploy Sonarr
 [9]  Redeploy Jackett
 [10] Redeploy Prowlarr
+[11] Redeploy qBittorrent
 ══════════════════════════════════
 [X] Exit
 ══════════════════════════════════
@@ -133,6 +134,11 @@ docker-compose --env-file "/opt/zerobox/.env" -f "/opt/zerobox/docker-compose.ym
 docker-compose --env-file "/opt/zerobox/.env" -f "/opt/zerobox/docker-compose.yml" up -d prowlarr
 ;;
 
+11)
+docker-compose --env-file "/opt/zerobox/.env" -f "/opt/zerobox/docker-compose.yml" qbittorrent down
+docker-compose --env-file "/opt/zerobox/.env" -f "/opt/zerobox/docker-compose.yml" up -d qbittorrent
+;;
+
 x)
 break
 ;;
@@ -165,6 +171,7 @@ cat << EOF
 [8]  Remove Sonarr
 [9]  Remove Jackett
 [10] Remove Prowlarr
+[11] Remove qBittorrent
 ══════════════════════════════════
 [X] Exit
 ══════════════════════════════════
@@ -212,6 +219,10 @@ docker-compose --env-file "/opt/zerobox/.env" -f "/opt/zerobox/docker-compose.ym
 
 10)
 docker-compose --env-file "/opt/zerobox/.env" -f "/opt/zerobox/docker-compose.yml" prowlarr down
+;;
+
+11)
+docker-compose --env-file "/opt/zerobox/.env" -f "/opt/zerobox/docker-compose.yml" qbittorrent down
 ;;
 
 x)

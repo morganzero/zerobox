@@ -27,6 +27,30 @@ services:
       - "${ZERODIR}/configs/Caddyfile:/etc/caddy/Caddyfile:ro"
       - "/opt/appdata/caddy:/config"
       - "/opt/appdata/caddy:/data"
+  qbittorrent:
+    container_name: qbittorrent
+    image: "ghcr.io/linuxserver/qbittorrent:latest"
+    restart: unless-stopped
+    ports:
+      - "6881:6881"
+      - "6881:6881/udp"
+      - "8098:8098"
+      - "8118:8118"
+    networks:
+      - zeroworks
+    environment:
+      - autoheal=true
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - WEBUI_PORT=8098
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/opt/appdata/qbittorrent:/config"
+      - "/mnt:/mnt"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
   jackett:
     image: ghcr.io/linuxserver/jackett
     container_name: jackett
